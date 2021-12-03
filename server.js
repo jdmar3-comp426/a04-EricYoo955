@@ -45,14 +45,16 @@ app.get("/app/user/:id", (req, res) => {
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
 app.patch("/app/update/user/:id", (req, res) => {
-	res.json("not done");
-	res.status(200);
+	const stmt = db.prepare("INSERT INTO userinfo WHERE id = ?");
+	const info = stmt.run(req.body.user, req.body.pass);
+	res.status(200).json({"message": info.changes + " record updated: ID " + req.params.id + " (200)"});
 });
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.delete("/app/delete/user/:id", (req, res) => {
-	res.json("not done");
-	res.status(200);
+	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = ?");
+	const info = stmt
+	res.status(200).json({"message": info.changes + " record deleted: ID " + req.params.id + " (200)"});
 });
 
 // Default response for any other request
