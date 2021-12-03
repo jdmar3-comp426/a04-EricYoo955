@@ -26,7 +26,7 @@ app.get("/app/", (req, res, next) => {
 app.post("/app/new/", (req, res) => {
 	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)");
 	const info = stmt.run(req.body.user, md5(req.body.pass));
-	res.status(201).json({"message": info.changes + " record created: ID " + info.lastInsertRowid});
+	res.status(201).json({"message": info.changes + " record created: ID " + info.lastInsertRowid + " (201)"});
 });
 
 // READ a list of all users (HTTP method GET) at endpoint /app/users/
@@ -41,11 +41,19 @@ app.get("/app/user/:id", (req, res) => {
 	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = ?").get(req.params.id);
 	res.json(stmt);
 	res.status(200);
-})
+});
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
+app.patch("/app/update/user/:id", (req, res) => {
+	res.json("not done");
+	res.status(200);
+});
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
+app.delete("/app/delete/user/:id", (req, res) => {
+	res.json("not done");
+	res.status(200);
+});
 
 // Default response for any other request
 app.use(function(req, res){
